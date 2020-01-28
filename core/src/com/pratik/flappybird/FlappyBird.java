@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Random;
 
 public class FlappyBird extends ApplicationAdapter {
+
 	private SpriteBatch batch;
 	private Texture background,topTube,bottomTube;
 	private int flapState = 0;
@@ -19,6 +20,9 @@ public class FlappyBird extends ApplicationAdapter {
 
 	private Random random;
 	private int gap = 200;
+
+	private int[] tubeX;
+	private int distanceBetweenTubes;
 
 	@Override
 	public void create () {
@@ -36,6 +40,20 @@ public class FlappyBird extends ApplicationAdapter {
 		gravity = 2;
 
 		random = new Random();
+
+
+
+		tubeX = new int[4];
+		distanceBetweenTubes = Gdx.graphics.getWidth()*3/4;    // for every distance 0.75 of screen width, new tube is generated;
+
+		for(int i = 0; i<4 ; i++){
+
+			tubeX[i] = Gdx.graphics.getWidth()/2-topTube.getWidth()/2 + Gdx.graphics.getWidth()+ i*distanceBetweenTubes;
+
+		}
+
+
+
 
 	}
 
@@ -68,10 +86,31 @@ public class FlappyBird extends ApplicationAdapter {
 
 			}
 
+			/**
+			  This for loop checks if tube has moved away from screen. If yes then generate a tube
+			 */
+
+			for (int i = 0; i < 4; i++) {
+
+				if(tubeX[i]<-topTube.getWidth()){
+
+					tubeX[i] += 4*distanceBetweenTubes; // 4 is the number of tubes
+
+
+				}else {
+					tubeX[i] = tubeX[i] - 4;
+
+				}
+
+				batch.draw(topTube,tubeX[i],Gdx.graphics.getHeight()/2f + gap );
+				batch.draw(bottomTube,tubeX[i],-Gdx.graphics.getHeight()/2f + gap );
+
+
+			}
+
 		}
 
-        batch.draw(topTube,Gdx.graphics.getWidth()/2f - topTube.getWidth()/2f,Gdx.graphics.getHeight()/2f + gap );
-        batch.draw(bottomTube,Gdx.graphics.getWidth()/2f - topTube.getWidth()/2f,-Gdx.graphics.getHeight()/2f + gap );
+
 
 		batch.draw(birds[flapState], Gdx.graphics.getWidth()/2f - birds[flapState].getWidth()/2f,birdY);
 
