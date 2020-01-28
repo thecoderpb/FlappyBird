@@ -21,7 +21,8 @@ public class FlappyBird extends ApplicationAdapter {
 	private Random random;
 	private int gap = 100;
 
-	private int[] tubeX,offsets;
+	private int[] tubeX;
+	private float[] offsets;
 	private int distanceBetweenTubes;
 
 	@Override
@@ -44,13 +45,13 @@ public class FlappyBird extends ApplicationAdapter {
 
 
 		tubeX = new int[4];
-		offsets = new int[4];
+		offsets = new float[4];
 		distanceBetweenTubes = Gdx.graphics.getWidth()*3/4;    // for every distance 0.75 of screen width, new tube is generated;
 
 		for(int i = 0; i<4 ; i++){
 
 			tubeX[i] = Gdx.graphics.getWidth()/2-topTube.getWidth()/2 + Gdx.graphics.getWidth()+ i*distanceBetweenTubes;
-			offsets[i] = random.nextInt(Gdx.graphics.getHeight()*3/4);
+			offsets[i] = random.nextInt(Gdx.graphics.getHeight()*3/4)*0.5f;
 		}
 
 
